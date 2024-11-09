@@ -2,7 +2,7 @@
 //======= Graph Moralization =======//
 //
 // Usage: ./moralization --dataset <dataset path>
-
+#include "gem5/m5ops.h"
 #include "common.h"
 #include "def.h"
 #include "perf.h"
@@ -155,6 +155,7 @@ void output(graph_t& ug, std::string path)
 //==============================================================//
 int main(int argc, char * argv[])
 {
+    m5_dump_stats(0,0);
     graphBIG::print();
     cout<<"Benchmark: Moralization\n";
 
@@ -210,10 +211,14 @@ int main(int argc, char * argv[])
         t1 = timer::get_usec();
         perf.open(i);
         perf.start(i);
+
+        m5_dump_reset_stats(0,0);
         if (threadnum==1)
             moralize(dag, *ug);
         else
             parallel_moralize(dag, *ug);
+        m5_exit(0);
+        
         perf.stop(i);
         t2 = timer::get_usec();
         elapse_time += t2-t1;

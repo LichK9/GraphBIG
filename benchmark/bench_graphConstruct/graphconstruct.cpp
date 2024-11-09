@@ -2,7 +2,7 @@
 //======= RandomGraph Construction =======//
 //
 // Usage: ./randomgraph --vertex <vertex #> --edge <edge #>
-
+#include "gem5/m5ops.h"
 #include "common.h"
 #include "def.h"
 #include "perf.h"
@@ -129,6 +129,7 @@ void output(graph_t& g)
 //==============================================================//
 int main(int argc, char * argv[])
 {
+    m5_dump_stats(0,0);
     graphBIG::print();
     cout<<"Benchmark: graph construction\n";
     
@@ -161,10 +162,14 @@ int main(int argc, char * argv[])
 
         t1 = timer::get_usec();
         graph_t g;
+
+        m5_dump_reset_stats(0,0);
         if (threadnum==1)
             randomgraph_construction(g, vertex_num, edge_num, perf, i);
         else
             parallel_randomgraph_construction(g, vertex_num, edge_num);
+        m5_exit(0);
+        
         t2 = timer::get_usec();
         elapse_time += t2-t1;
 #ifdef ENABLE_OUTPUT

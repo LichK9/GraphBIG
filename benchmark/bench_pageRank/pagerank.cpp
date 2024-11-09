@@ -1,6 +1,6 @@
 //====== Graph Benchmark Suites ======//
 //======== Degree Centrality =========//
-
+#include "gem5/m5ops.h"
 #include "common.h"
 #include "def.h"
 #include "openG.h"
@@ -187,6 +187,7 @@ void output(graph_t& g)
 
 int main(int argc, char * argv[])
 {
+    m5_dump_stats(0,0);
     graphBIG::print();
     cout<<"Benchmark: Degree Centrality\n";
 
@@ -255,8 +256,9 @@ int main(int argc, char * argv[])
 
         // Degree Centrality
         t1 = timer::get_usec();
-        
+        m5_dump_reset_stats(0,0);
         parallel_pagerank(graph, threadnum, damp, quad, maxiter, perf_multi, i);
+        m5_exit(0);
 
         t2 = timer::get_usec();
         elapse_time += t2-t1;

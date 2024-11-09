@@ -2,7 +2,7 @@
 //======= Breadth-first Search =======//
 //
 // Usage: ./bfs.exe --dataset <dataset path> --root <root vertex id>
-
+#include "gem5/m5ops.h"
 #include "common.h"
 #include "def.h"
 #include "perf.h"
@@ -252,6 +252,7 @@ void reset_graph(graph_t & g)
 //==============================================================//
 int main(int argc, char * argv[])
 {
+    m5_dump_stats(0,0);
     graphBIG::print();
     cout<<"Benchmark: BFS\n";
 
@@ -316,10 +317,12 @@ int main(int argc, char * argv[])
     {
         t1 = timer::get_usec();
 
+        m5_dump_reset_stats(0,0);
         if (threadnum==1)
             bfs(graph, root, vis, perf, i);
         else
             parallel_bfs(graph, root, threadnum, perf_multi, i);
+        m5_exit(0);
 
         t2 = timer::get_usec();
         elapse_time += t2-t1;

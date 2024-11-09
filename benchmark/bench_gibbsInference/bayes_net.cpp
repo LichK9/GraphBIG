@@ -7,7 +7,7 @@
  verfied according to CSci 5512 UMN
  Gibbs Sampling for Approximate Inference in Bayesian Networks
 ***************************************************************/
-
+#include "gem5/m5ops.h"
 #include <time.h>
 #include <iostream>
 #include <string>
@@ -480,7 +480,9 @@ int main(int argc, char* argv[])
 #ifdef SIM
     SIM_BEGIN(true);
 #endif
+        m5_dump_reset_stats(0,0);
         result = gibbs_estimate(&g, evidence_nodes, root, value, iteration);
+        m5_exit(0);
 #ifdef SIM
     SIM_END(true);
 #endif

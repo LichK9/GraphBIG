@@ -1,8 +1,9 @@
-CXX_FLAGS+=-std=c++0x -Wall -Wno-deprecated
-INCLUDE+=-I${ROOT}/common -I${ROOT}/openG
+CXX_FLAGS+=-std=c++0x -Wall -Wno-deprecated -fuse-ld=mold
+INCLUDE+=-I${ROOT}/common -I${ROOT}/openG -I/mnt/data/gem5-24.0.0.1/include
 EXTRA_CXX_FLAGS+=-L${ROOT}/tools/lib
 
 LIBS=${EXTRA_LIBS}
+EXTRA_LIBS+=-L/mnt/data/gem5-24.0.0.1/util/m5/build/x86/out -lm5
 
 ifeq (${PFM},0)
   CXX_FLAGS += -DNO_PFM

@@ -4,7 +4,7 @@
 // BC for unweighted graph
 // Brandes' algorithm 
 // Usage: ./bc.exe --dataset <dataset path>
-
+#include "gem5/m5ops.h"
 #include "common.h"
 #include "def.h"
 #include "openG.h"
@@ -304,6 +304,7 @@ void reset_graph(graph_t & g)
 
 int main(int argc, char * argv[])
 {
+    m5_dump_stats(0,0);
     graphBIG::print();
     cout<<"Benchmark: Betweenness Centrality\n";
     
@@ -378,10 +379,12 @@ int main(int argc, char * argv[])
     {
         t1 = timer::get_usec();
 
+        m5_dump_reset_stats(0,0);
         if (threadnum==1)
             bc(graph,undirected,perf,i);
         else
             parallel_bc(graph,threadnum,undirected,perf_multi,i);
+        m5_exit(0);
 
         t2 = timer::get_usec();
         elapse_time += t2-t1;

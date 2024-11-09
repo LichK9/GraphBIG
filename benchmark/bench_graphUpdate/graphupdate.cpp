@@ -2,7 +2,7 @@
 //======= RandomGraph Construction =======//
 //
 // Usage: ./graphupdate --delete <vertex #> --dataset <dataset path>
-
+#include "gem5/m5ops.h"
 #include "common.h"
 #include "def.h"
 #include "perf.h"
@@ -114,6 +114,7 @@ void output(graph_t& g)
 //==============================================================//
 int main(int argc, char * argv[])
 {
+    m5_dump_stats(0,0);
     graphBIG::print();
     cout<<"Benchmark: Graph update\n";
     
@@ -177,8 +178,10 @@ int main(int argc, char * argv[])
         t1 = timer::get_usec();
         perf.open(i);
         perf.start(i);
-
+        
+        m5_dump_reset_stats(0,0);
         graph_update(g, IDs);
+        m5_exit(0);
 
         perf.stop(i);
         t2 = timer::get_usec();

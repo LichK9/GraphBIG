@@ -2,7 +2,7 @@
 //======== Depth-first Search ========//
 //
 // Usage: ./dfs.exe --dataset <dataset path> --root <root vertex id>
-
+#include "gem5/m5ops.h"
 #include "common.h"
 #include "def.h"
 #include "openG.h"
@@ -147,6 +147,7 @@ void reset_graph(graph_t & g)
 //==============================================================//
 int main(int argc, char * argv[])
 {
+    m5_dump_stats(0,0);
     graphBIG::print();
     cout<<"Benchmark: DFS\n";
 
@@ -209,8 +210,9 @@ int main(int argc, char * argv[])
         vis.black_access=0;
 
         t1 = timer::get_usec();
-
+        m5_dump_reset_stats(0,0);
         dfs(graph, root, vis, perf, i);
+        m5_exit(0);
 
         t2 = timer::get_usec();
         elapse_time += t2-t1;

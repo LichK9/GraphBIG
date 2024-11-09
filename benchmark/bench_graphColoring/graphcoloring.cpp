@@ -2,7 +2,7 @@
 //======== kCore Decomposition =======//
 //
 // Usage: ./kcore.exe --dataset <dataset path> --kcore <k value>
-
+#include "gem5/m5ops.h"
 #include "common.h"
 #include "def.h"
 #include "openG.h"
@@ -183,6 +183,7 @@ void reset_graph(graph_t & g)
 //==============================================================//
 int main(int argc, char * argv[])
 {
+    m5_dump_stats(0,0);
     graphBIG::print();
     cout<<"Benchmark: kCore decomposition\n";
     double t1, t2;
@@ -249,7 +250,10 @@ int main(int argc, char * argv[])
 
         t1 = timer::get_usec();
 
+        m5_dump_reset_stats(0,0);
         parallel_graphcoloring(graph,threadnum,global_input_tasks,perf_multi,i);
+        m5_exit(0);
+
         t2 = timer::get_usec();
         elapse_time += t2-t1;
         if ((i+1)<run_num) reset_graph(graph);
